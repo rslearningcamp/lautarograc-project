@@ -1,0 +1,69 @@
+version: '3.0'
+
+services:
+  web:
+    build: .
+    entrypoint: >
+      bash -c "
+      rm -f tmp/pids/server.pid
+      && bundle exec rails db:prepare
+      && bundle exec rails s -b 0.0.0.0 -p 3000"
+    ports:
+      - 3000:3000
+    environment:
+      RAILS_ENV: development
+    depends_on:
+      - db
+    links:
+      - db:db
+    restart: always
+    volumes:
+    - "./:/src/rails_api_base"
+  db:
+    image: postgres:11
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: 'postgres'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  worker:
+    build: .
+    entrypoint: "bundle exec rake jobs:work"
+    depends_on:
+      - db
+      - web
+    links:
+      - "db:db"
+    restart: always
+  test:
+    build: .
+    stdin_open: true
+    tty: true
+    environment:
+      RAILS_ENV: test
+    depends_on:
+      - db
+    links:
+      - db:db
+    volumes:
+    - "./:/src/rails_api_base"
+    profiles:
+      - donotstart
+  development:
+    build: .
+    stdin_open: true
+    tty: true
+    environment:
+      RAILS_ENV: development
+    depends_on:
+      - db
+    links:
+      - db:db
+    volumes:
+    - "./:/src/rails_api_base"
+    profiles:
+      - donotstart
+volumes:
+  db_data:
