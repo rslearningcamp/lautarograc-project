@@ -15,6 +15,7 @@ gem 'pg', '~> 1.1', '>= 1.1.4'
 gem 'puma', '~> 5.6'
 gem 'rack-cors', '~> 1.1.1'
 gem 'sass-rails', '>= 6'
+gem 'shoulda-matchers', '~> 5.1'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
 
