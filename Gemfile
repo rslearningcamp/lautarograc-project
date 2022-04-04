@@ -6,6 +6,7 @@ ruby '3.0.0'
 gem 'rails', '~> 6.1.5'
 
 gem 'activeadmin', '~> 2.9'
+gem 'active_model_serializers', '~> 0.10.13'
 gem 'bootsnap', '~> 1.4', '>= 1.4.5'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.6'
 gem 'devise', '~> 4.8'
