@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_31_192749) do
+ActiveRecord::Schema.define(version: 2022_04_05_031650) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,6 +83,20 @@ ActiveRecord::Schema.define(version: 2022_03_31_192749) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "targets", force: :cascade do |t|
+    t.string "title", null: false
+    t.float "radius"
+    t.decimal "latitude", precision: 15, scale: 10, null: false
+    t.decimal "longitude", precision: 15, scale: 10, null: false
+    t.bigint "topic_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["latitude", "longitude"], name: "index_targets_on_latitude_and_longitude"
+    t.index ["latitude"], name: "index_targets_on_latitude"
+    t.index ["longitude"], name: "index_targets_on_longitude"
+    t.index ["topic_id"], name: "index_targets_on_topic_id"
+  end
+
   create_table "topics", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
@@ -117,4 +131,5 @@ ActiveRecord::Schema.define(version: 2022_03_31_192749) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "targets", "topics"
 end

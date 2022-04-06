@@ -3,23 +3,22 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.0'
 
-gem 'rails', '~> 6.1.5'
-
 gem 'activeadmin', '~> 2.9'
 gem 'active_model_serializers', '~> 0.10.13'
 gem 'bootsnap', '~> 1.4', '>= 1.4.5'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.6'
 gem 'devise', '~> 4.8'
 gem 'devise_token_auth', '~> 1.2'
+gem 'geokit-rails', '~> 2.3', '>= 2.3.2'
 gem 'jbuilder', '~> 2.7'
 gem 'pg', '~> 1.1', '>= 1.1.4'
 gem 'puma', '~> 5.6'
 gem 'rack-cors', '~> 1.1.1'
+gem 'rails', '~> 6.1.5'
 gem 'sass-rails', '>= 6'
 gem 'shoulda-matchers', '~> 5.1'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
-
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
