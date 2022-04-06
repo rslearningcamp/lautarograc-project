@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     end
     namespace :v1, defaults: { format: :json } do
       resources :topics, only: [:index]
+      resources :targets, only: [:create]
     end
     end
 end
