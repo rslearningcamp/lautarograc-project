@@ -10,6 +10,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  topic_id   :bigint           not null
+#  user_id    :bigint           not null
 #
 # Indexes
 #
@@ -17,10 +18,12 @@
 #  index_targets_on_latitude_and_longitude  (latitude,longitude)
 #  index_targets_on_longitude               (longitude)
 #  index_targets_on_topic_id                (topic_id)
+#  index_targets_on_user_id                 (user_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (topic_id => topics.id)
+#  fk_rails_...  (user_id => users.id)
 #
 require 'rails_helper'
 
@@ -41,6 +44,7 @@ RSpec.describe Target, type: :model do
     it { is_expected.to validate_presence_of(:longitude) }
     it { is_expected.to validate_presence_of(:title) }
     it { is_expected.to validate_presence_of(:topic_id) }
+    it { is_expected.to validate_presence_of(:user_id) }
     it { is_expected.to validate_presence_of(:radius) }
     it {
       is_expected.to validate_numericality_of(:latitude)
@@ -54,5 +58,6 @@ RSpec.describe Target, type: :model do
   end
   describe 'associations' do
     it { is_expected.to belong_to(:topic) }
+    it { is_expected.to belong_to(:user) }
   end
 end

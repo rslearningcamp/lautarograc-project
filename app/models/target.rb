@@ -10,6 +10,7 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  topic_id   :bigint           not null
+#  user_id    :bigint           not null
 #
 # Indexes
 #
@@ -17,13 +18,16 @@
 #  index_targets_on_latitude_and_longitude  (latitude,longitude)
 #  index_targets_on_longitude               (longitude)
 #  index_targets_on_topic_id                (topic_id)
+#  index_targets_on_user_id                 (user_id)
 #
 # Foreign Keys
 #
 #  fk_rails_...  (topic_id => topics.id)
+#  fk_rails_...  (user_id => users.id)
 #
 class Target < ApplicationRecord
   belongs_to :topic
+  belongs_to :user
   acts_as_mappable default_units: :kms,
                    default_formula: :sphere,
                    distance_field_name: :distance,
@@ -36,5 +40,6 @@ class Target < ApplicationRecord
   validates :longitude, presence: true,
                         numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
   validates :radius, presence: true, numericality: { greater_than_or_equal_to: 0 }
+  validates :user_id, presence: true
   validates :topic_id, presence: true
 end

@@ -36,3 +36,19 @@ describe 'POST /create', type: :request do
     end
   end
 end
+describe 'GET /index', type: :request do
+  let(:user) { create(:user) }
+  let(:target) { create_list(:target, 5, user_id: user.id) }
+  context 'with valid auth' do
+    it 'returns ok status' do
+      get '/api/v1/targets', headers: auth_headers, as: :json
+      expect(response).to have_http_status(:ok)
+    end
+  end
+  context 'with invalid auth' do
+    it 'returns unauthorized status' do
+      get '/api/v1/targets', headers: nil, as: :json
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
+end
