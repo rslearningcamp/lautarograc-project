@@ -4,7 +4,7 @@ module Api
       def create
         @target = Target.new(target_params.merge(user_id: current_api_user.id))
         if @target.save
-          render json: @target, status: :created
+          render :create, status: :created
         else
           render json: { errors: @target.errors }, status: :unprocessable_entity
         end
@@ -12,7 +12,7 @@ module Api
 
       def index
         @targets = Target.where(user_id: current_api_user.id).all
-        render json: @targets, status: :ok
+        render :index, status: :ok
       end
 
       private

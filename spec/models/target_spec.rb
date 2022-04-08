@@ -43,8 +43,6 @@ RSpec.describe Target, type: :model do
     it { is_expected.to validate_presence_of(:latitude) }
     it { is_expected.to validate_presence_of(:longitude) }
     it { is_expected.to validate_presence_of(:title) }
-    it { is_expected.to validate_presence_of(:topic_id) }
-    it { is_expected.to validate_presence_of(:user_id) }
     it { is_expected.to validate_presence_of(:radius) }
     it {
       is_expected.to validate_numericality_of(:latitude)

@@ -4,7 +4,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '3.0.0'
 
 gem 'activeadmin', '~> 2.9'
-gem 'active_model_serializers', '~> 0.10.13'
+# gem 'active_model_serializers', '~> 0.10.13'
 gem 'bootsnap', '~> 1.4', '>= 1.4.5'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.6'
 gem 'devise', '~> 4.8'
