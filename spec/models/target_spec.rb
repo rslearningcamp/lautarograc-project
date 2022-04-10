@@ -28,6 +28,7 @@
 require 'rails_helper'
 
 RSpec.describe Target, type: :model do
+  user = FactoryBot.create(:user)
   subject(:target) { build(:target) }
   describe 'factory' do
     it { is_expected.to be_valid }
@@ -43,8 +44,6 @@ RSpec.describe Target, type: :model do
     it { is_expected.to validate_presence_of(:latitude) }
     it { is_expected.to validate_presence_of(:longitude) }
     it { is_expected.to validate_presence_of(:title) }
-    it { is_expected.to validate_presence_of(:topic_id) }
-    it { is_expected.to validate_presence_of(:user_id) }
     it { is_expected.to validate_presence_of(:radius) }
     it {
       is_expected.to validate_numericality_of(:latitude)
@@ -55,9 +54,14 @@ RSpec.describe Target, type: :model do
         .is_greater_than_or_equal_to(-180).is_less_than_or_equal_to(180)
     }
     it { is_expected.to validate_numericality_of(:radius).is_greater_than_or_equal_to(0) }
+
+    it 'validates that target limit is not exceeded' do
+      expect {
+        FactoryBot.create_list(:target, 4, user_id: user.id)
+      }.to raise_error(ActiveRecord::RecordInvalid)
+    end
   end
   describe 'associations' do
     it { is_expected.to belong_to(:topic) }
-    it { is_expected.to belong_to(:user) }
   end
 end
