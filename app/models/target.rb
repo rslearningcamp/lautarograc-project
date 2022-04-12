@@ -40,6 +40,4 @@ class Target < ApplicationRecord
   validates :longitude, presence: true,
                         numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
   validates :radius, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validates :user_id, presence: true
-  validates :topic_id, presence: true
 end
