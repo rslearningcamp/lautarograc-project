@@ -52,3 +52,20 @@ describe 'GET /index', type: :request do
     end
   end
 end
+
+describe 'DELETE /destroy', type: :request do
+  let(:user) { create(:user) }
+  let(:target) { create(:target, user_id: user.id) }
+  context 'with valid auth' do
+    it 'returns no content status' do
+      delete "/api/v1/targets/#{target.id}", headers: auth_headers, as: :json
+      expect(response).to have_http_status(:no_content)
+    end
+  end
+  context 'with invalid auth' do
+    it 'returns unauthorized status' do
+      delete "/api/v1/targets/#{target.id}", headers: nil, as: :json
+      expect(response).to have_http_status(:unauthorized)
+    end
+  end
+end
