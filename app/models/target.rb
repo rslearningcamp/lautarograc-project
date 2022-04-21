@@ -26,7 +26,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Target < ApplicationRecord
-  include Limitable
   belongs_to :topic
   belongs_to :user
   acts_as_mappable default_units: :kms,
@@ -41,5 +40,13 @@ class Target < ApplicationRecord
   validates :longitude, presence: true,
                         numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
   validates :radius, presence: true, numericality: { greater_than_or_equal_to: 0 }
-  validate :limit_targets
+  validate :limit_targets, on: :create
+
+  private
+
+  TARGET_LIMIT = 3
+  def limit_targets
+    limit_error = "You can only have #{TARGET_LIMIT} targets"
+    return errors.add(:base, limit_error) if user.targets.count >= TARGET_LIMIT
+  end
 end

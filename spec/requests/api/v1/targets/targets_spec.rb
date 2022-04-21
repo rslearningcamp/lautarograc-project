@@ -10,6 +10,14 @@ describe 'POST /create', type: :request do
                               headers: auth_headers, as: :json
       expect(response).to have_http_status(:created)
     end
+    it 'returns validation error if exceeds target_length' do
+      (1..4).each do |i|
+        attrs = attributes_for(:target, title: "title#{i}")
+        post '/api/v1/targets', params: { target: attrs },
+                                headers: auth_headers, as: :json
+      end
+      expect(response).to have_http_status(:unprocessable_entity)
+    end
   end
   context 'with invalid params and valid auth' do
     it 'returns unprocessable entity status' do
