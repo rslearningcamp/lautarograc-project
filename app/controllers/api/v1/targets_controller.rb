@@ -28,7 +28,8 @@ module Api
       end
 
       def set_target
-        @target = Target.where(user_id: current_api_user.id).find(params[:id])
+        @target = Target.find(params[:id])
+        head :forbidden if current_api_user.id != @target.user_id
       end
     end
   end
