@@ -13,7 +13,7 @@
 #
 FactoryBot.define do
   factory :topic do
-    name { Faker::Lorem.word }
+    name { Faker::Nation.capital_city }
     trait :with_image do
       image do
         Rack::Test::UploadedFile.new(Rails.root.join('spec', 'support', 'images', 'test.jpg'),
