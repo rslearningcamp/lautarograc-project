@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     namespace :v1, defaults: { format: :json } do
       resources :topics, only: [:index]
       resources :targets, only: %i[create index destroy]
+      resources :conversations, only: %i[index]
     end
     end
 end

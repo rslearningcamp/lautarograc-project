@@ -64,4 +64,9 @@ RSpec.describe Target, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:topic) }
   end
+  it 'is expected to validate that a match is created' do
+    expect {
+      FactoryBot.create(:match)
+    }.to change(Match, :count).by(1)
+  end
 end
