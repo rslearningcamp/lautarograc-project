@@ -42,9 +42,10 @@ class Target < ApplicationRecord
   validates :radius, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validate :limit_targets, on: :create
 
-  
   TARGET_LIMIT = 3
+
   private
+
   def limit_targets
     limit_error = "You can only have #{TARGET_LIMIT} targets"
     return errors.add(:base, limit_error) if user.targets.count >= TARGET_LIMIT

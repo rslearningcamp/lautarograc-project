@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_07_020053) do
+ActiveRecord::Schema.define(version: 2022_04_23_005809) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,13 @@ ActiveRecord::Schema.define(version: 2022_04_07_020053) do
     t.index ["uid", "provider"], name: "index_admin_users_on_uid_and_provider", unique: true
   end
 
+  create_table "conversations", force: :cascade do |t|
+    t.bigint "match_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["match_id"], name: "index_conversations_on_match_id"
+  end
+
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer "priority", default: 0, null: false
     t.integer "attempts", default: 0, null: false
@@ -83,9 +90,20 @@ ActiveRecord::Schema.define(version: 2022_04_07_020053) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "matches", force: :cascade do |t|
+    t.bigint "origin_user_id", null: false
+    t.bigint "end_user_id", null: false
+    t.bigint "origin_target_id", null: false
+    t.bigint "end_target_id", null: false
+    t.index ["end_target_id"], name: "index_matches_on_end_target_id"
+    t.index ["end_user_id"], name: "index_matches_on_end_user_id"
+    t.index ["origin_target_id"], name: "index_matches_on_origin_target_id"
+    t.index ["origin_user_id"], name: "index_matches_on_origin_user_id"
+  end
+
   create_table "targets", force: :cascade do |t|
     t.string "title", null: false
-    t.float "radius"
+    t.float "radius", null: false
     t.decimal "latitude", precision: 15, scale: 10, null: false
     t.decimal "longitude", precision: 15, scale: 10, null: false
     t.bigint "topic_id", null: false
@@ -133,6 +151,11 @@ ActiveRecord::Schema.define(version: 2022_04_07_020053) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "conversations", "matches"
+  add_foreign_key "matches", "targets", column: "end_target_id"
+  add_foreign_key "matches", "targets", column: "origin_target_id"
+  add_foreign_key "matches", "users", column: "end_user_id"
+  add_foreign_key "matches", "users", column: "origin_user_id"
   add_foreign_key "targets", "topics"
   add_foreign_key "targets", "users"
 end
