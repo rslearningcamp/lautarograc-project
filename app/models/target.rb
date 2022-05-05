@@ -5,7 +5,7 @@
 #  id         :bigint           not null, primary key
 #  latitude   :decimal(15, 10)  not null
 #  longitude  :decimal(15, 10)  not null
-#  radius     :float
+#  radius     :float            not null
 #  title      :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -54,11 +54,9 @@ class Target < ApplicationRecord
 
   def create_match
     Target.within(radius, origin: [latitude, longitude]).each do |target|
-      next unless target != self && target.topic_id == topic_id
+      next unless target != self && target.topic_id == topic_id && target.user_id != user_id
 
-      Match.create!(origin_user: user,
-                    origin_target: self,
-                    end_user: target.user,
+      Match.create!(origin_target: self,
                     end_target: target)
     end
   end

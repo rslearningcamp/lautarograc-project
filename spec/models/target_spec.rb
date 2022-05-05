@@ -5,7 +5,7 @@
 #  id         :bigint           not null, primary key
 #  latitude   :decimal(15, 10)  not null
 #  longitude  :decimal(15, 10)  not null
-#  radius     :float
+#  radius     :float            not null
 #  title      :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_23_005809) do
+ActiveRecord::Schema.define(version: 2022_04_29_213211) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -91,14 +91,10 @@ ActiveRecord::Schema.define(version: 2022_04_23_005809) do
   end
 
   create_table "matches", force: :cascade do |t|
-    t.bigint "origin_user_id", null: false
-    t.bigint "end_user_id", null: false
     t.bigint "origin_target_id", null: false
     t.bigint "end_target_id", null: false
     t.index ["end_target_id"], name: "index_matches_on_end_target_id"
-    t.index ["end_user_id"], name: "index_matches_on_end_user_id"
     t.index ["origin_target_id"], name: "index_matches_on_origin_target_id"
-    t.index ["origin_user_id"], name: "index_matches_on_origin_user_id"
   end
 
   create_table "targets", force: :cascade do |t|
@@ -154,8 +150,6 @@ ActiveRecord::Schema.define(version: 2022_04_23_005809) do
   add_foreign_key "conversations", "matches"
   add_foreign_key "matches", "targets", column: "end_target_id"
   add_foreign_key "matches", "targets", column: "origin_target_id"
-  add_foreign_key "matches", "users", column: "end_user_id"
-  add_foreign_key "matches", "users", column: "origin_user_id"
   add_foreign_key "targets", "topics"
   add_foreign_key "targets", "users"
 end
