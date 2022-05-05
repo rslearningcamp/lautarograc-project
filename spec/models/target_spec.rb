@@ -5,7 +5,7 @@
 #  id         :bigint           not null, primary key
 #  latitude   :decimal(15, 10)  not null
 #  longitude  :decimal(15, 10)  not null
-#  radius     :float
+#  radius     :float            not null
 #  title      :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -63,5 +63,10 @@ RSpec.describe Target, type: :model do
   end
   describe 'associations' do
     it { is_expected.to belong_to(:topic) }
+  end
+  it 'is expected to validate that a match is created' do
+    expect {
+      FactoryBot.create(:match)
+    }.to change(Match, :count).by(1)
   end
 end

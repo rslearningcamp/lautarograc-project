@@ -5,7 +5,7 @@
 #  id         :bigint           not null, primary key
 #  latitude   :decimal(15, 10)  not null
 #  longitude  :decimal(15, 10)  not null
-#  radius     :float
+#  radius     :float            not null
 #  title      :string           not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -41,6 +41,7 @@ class Target < ApplicationRecord
                         numericality: { greater_than_or_equal_to: -180, less_than_or_equal_to: 180 }
   validates :radius, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validate :limit_targets, on: :create
+  after_create :create_match
 
   TARGET_LIMIT = 3
 
@@ -49,5 +50,14 @@ class Target < ApplicationRecord
   def limit_targets
     limit_error = "You can only have #{TARGET_LIMIT} targets"
     return errors.add(:base, limit_error) if user.targets.count >= TARGET_LIMIT
+  end
+
+  def create_match
+    Target.within(radius, origin: [latitude, longitude]).each do |target|
+      next unless target != self && target.topic_id == topic_id && target.user_id != user_id
+
+      Match.create!(origin_target: self,
+                    end_target: target)
+    end
   end
 end
