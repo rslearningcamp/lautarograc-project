@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_04_29_213211) do
+ActiveRecord::Schema.define(version: 2022_05_06_162919) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -93,8 +93,21 @@ ActiveRecord::Schema.define(version: 2022_04_29_213211) do
   create_table "matches", force: :cascade do |t|
     t.bigint "origin_target_id", null: false
     t.bigint "end_target_id", null: false
+    t.bigint "conversation_id"
+    t.index ["conversation_id"], name: "index_matches_on_conversation_id"
     t.index ["end_target_id"], name: "index_matches_on_end_target_id"
     t.index ["origin_target_id"], name: "index_matches_on_origin_target_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.string "title", null: false
+    t.text "content"
+    t.bigint "conversation_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["conversation_id"], name: "index_messages_on_conversation_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
   end
 
   create_table "targets", force: :cascade do |t|
@@ -148,8 +161,11 @@ ActiveRecord::Schema.define(version: 2022_04_29_213211) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "conversations", "matches"
+  add_foreign_key "matches", "conversations"
   add_foreign_key "matches", "targets", column: "end_target_id"
   add_foreign_key "matches", "targets", column: "origin_target_id"
+  add_foreign_key "messages", "conversations"
+  add_foreign_key "messages", "users"
   add_foreign_key "targets", "topics"
   add_foreign_key "targets", "users"
 end
