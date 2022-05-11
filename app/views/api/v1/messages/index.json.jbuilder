@@ -15,19 +15,17 @@ json.conversation do
         json.id @conversation.match.end_target.user.id
         json.name @conversation.match.end_target.user.name
       end
-      json.topic do
-        json.id @conversation.match.end_target.topic.id
-        json.name @conversation.match.end_target.topic.name
-      end
+    end
+    json.topic do
+      json.id @conversation.match.end_target.topic.id
+      json.name @conversation.match.end_target.topic.name
     end
   end
 end
 json.meta do
-  json.total_messages_count @conversation.messages.count
-  json.current_page @conversation.messages.page.current_page
-  json.total_pages @conversation.messages.page.total_pages
-  json.next_page @conversation.messages.page.next_page unless @conversation.messages.page.last_page?
-  unless @conversation.messages.page.first_page?
-    json.prev_page @conversation.messages.page.prev_page
-  end
+  json.total_messages_count @messages.count
+  json.current_page @messages.current_page
+  json.total_pages @messages.page.total_pages
+  json.next_page @messages.next_page unless @messages.last_page?
+  json.prev_page @messages.prev_page unless @messages.first_page?
 end

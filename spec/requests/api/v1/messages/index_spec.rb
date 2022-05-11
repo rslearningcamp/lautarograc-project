@@ -26,6 +26,13 @@ describe 'GET api/v1/messages', type: :request do
     it 'checks if message is created' do
       expect(response.body).to include(message[0].title)
     end
+    it 'returns correct meta' do
+      expect(json['meta']['total_messages_count']).to eq(2)
+      expect(json['meta']['current_page']).to eq(1)
+      expect(json['meta']['total_pages']).to eq(1)
+      expect(json['meta']['next_page']).to be_nil
+      expect(json['meta']['prev_page']).to be_nil
+    end
   end
   context 'with invalid params and valid auth' do
     it 'returns empty page' do

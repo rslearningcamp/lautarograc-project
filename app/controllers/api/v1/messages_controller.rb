@@ -37,11 +37,11 @@ module Api
       end
 
       def page
-        params[:page] || 1
+        params[:page] || ENV['PAGE']
       end
 
       def per_page
-        params[:per_page] || 3
+        params[:per_page] || ENV['PER_PAGE']
       end
     end
   end
