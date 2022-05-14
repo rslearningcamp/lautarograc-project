@@ -18,6 +18,9 @@ require 'helpers'
 require 'webmock/rspec'
 
 RSpec.configure do |config|
+  config.before(:each) do
+    Sidekiq::Worker.clear_all
+  end
   config.include Helpers
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

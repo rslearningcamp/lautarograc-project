@@ -3,6 +3,7 @@
 # Table name: targets
 #
 #  id         :bigint           not null, primary key
+#  active     :boolean          default(TRUE)
 #  latitude   :decimal(15, 10)  not null
 #  longitude  :decimal(15, 10)  not null
 #  radius     :float            not null
@@ -26,6 +27,10 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Target < ApplicationRecord
+  has_many :matches_from_origin, class_name: 'Match', foreign_key: :origin_target_id,
+                                 dependent: :destroy, inverse_of: :origin_target
+  has_many :matches_to_end, class_name: 'Match', foreign_key: :end_target_id, dependent: :destroy,
+                            inverse_of: :end_target
   belongs_to :topic
   belongs_to :user
   acts_as_mappable default_units: :kms,
@@ -54,7 +59,10 @@ class Target < ApplicationRecord
 
   def create_match
     Target.within(radius, origin: [latitude, longitude]).each do |target|
-      next unless target != self && target.topic_id == topic_id && target.user_id != user_id
+      unless target != self && target.topic_id == topic_id &&
+             target.user_id != user_id && target.active == true
+        next
+      end
 
       Match.create!(origin_target: self,
                     end_target: target)
