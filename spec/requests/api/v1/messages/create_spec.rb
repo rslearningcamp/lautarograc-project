@@ -30,7 +30,7 @@ describe 'POST api/v1/messages', type: :request do
       expect(Message.count).to eq(1)
     end
     it 'returns message params' do
-      expect(response.body).to include('title', 'content', 'conversation_id')
+      expect(response.body).to include('title', 'content', 'user_id')
     end
   end
   context 'with invalid params and valid auth' do
