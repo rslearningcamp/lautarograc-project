@@ -31,14 +31,14 @@
 #
 FactoryBot.define do
   factory :user do
-    email                 { Faker::Internet.email }
+    email { Faker::Internet.email }
     name                  { Faker::Name.name }
     password              { Faker::Internet.password }
     password_confirmation { password }
 
-  trait :vip do
-    vip { true }
+    trait :vip do
+      vip { true }
+    end
+    factory :vip_user, traits: [:vip]
   end
-  factory :vip_user, traits: [:vip]
-end
 end
