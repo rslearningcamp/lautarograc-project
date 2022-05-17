@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe 'POST api/v1/targets', type: :request do
   let(:user) { create(:user) }
-  let(:vip_user) { create(:user, vip: true) }
+  let(:vip_user) { create(:vip_user) }
   subject do
     post api_v1_targets_path, params: { target: target_params },
                               headers: auth_headers, as: :json
@@ -31,6 +31,7 @@ describe 'POST api/v1/targets', type: :request do
                                 headers: auth_headers, as: :json
       end
       expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to include('You can only have 3 targets')
     end
     it "don't limits vip users to a maximum of 3 targets" do
       vip_auth_headers = vip_user.create_new_auth_token
