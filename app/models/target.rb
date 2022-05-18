@@ -49,7 +49,7 @@ class Target < ApplicationRecord
 
   def limit_targets
     limit_error = "You can only have #{TARGET_LIMIT} targets"
-    return errors.add(:base, limit_error) if user.targets.count >= TARGET_LIMIT
+    return errors.add(:base, limit_error) if user.targets.count >= TARGET_LIMIT && !user.vip?
   end
 
   def create_match
