@@ -18,6 +18,7 @@ gem 'rack-cors', '~> 1.1.1'
 gem 'rails', '~> 6.1.5'
 gem 'sass-rails', '>= 6'
 gem 'shoulda-matchers', '~> 5.1'
+gem 'sidekiq'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
 group :development, :test do
@@ -45,6 +46,7 @@ end
 
 group :test do
   gem 'capybara', '>= 3.26'
+  gem 'rspec-sidekiq'
   gem 'selenium-webdriver'
   gem 'simplecov', '~> 0.21.2', require: false
   gem 'webdrivers'
