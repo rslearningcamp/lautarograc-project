@@ -383,6 +383,7 @@ DEPENDENCIES
   faker (~> 2.19)
   geokit-rails (~> 2.3, >= 2.3.2)
   jbuilder (~> 2.7)
+  kaminari
   listen (~> 3.3)
   pg (~> 1.1, >= 1.1.4)
   pry-byebug (~> 3.9)
