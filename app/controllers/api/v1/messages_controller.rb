@@ -37,11 +37,11 @@ module Api
       end
 
       def page
-        params[:page] || ENV['PAGE']
+        params[:page] || ENV.fetch('PAGE', nil)
       end
 
       def per_page
-        params[:per_page] || ENV['PER_PAGE']
+        params[:per_page] || ENV.fetch('PER_PAGE', nil)
       end
     end
   end

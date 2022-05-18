@@ -2,6 +2,7 @@
   "name": "rails-api-base",
   "private": true,
   "dependencies": {
+    "@activeadmin/activeadmin": "^2.13.0",
     "@rails/actioncable": "6.1.5",
     "@rails/activestorage": "6.1.5",
     "@rails/ujs": "6.1.5",
