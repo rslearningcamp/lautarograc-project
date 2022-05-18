@@ -30,6 +30,7 @@ require 'rails_helper'
 
 RSpec.describe Target, type: :model do
   user = FactoryBot.create(:user)
+  vip_user = FactoryBot.create(:user, vip: true)
   subject(:target) { build(:target) }
   describe 'factory' do
     it { is_expected.to be_valid }
@@ -60,6 +61,11 @@ RSpec.describe Target, type: :model do
       expect {
         FactoryBot.create_list(:target, 4, user_id: user.id)
       }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+    it 'validates that vip has not limit' do
+      expect {
+        FactoryBot.create_list(:target, 4, user_id: vip_user.id)
+      }.not_to raise_error
     end
   end
   describe 'associations' do
