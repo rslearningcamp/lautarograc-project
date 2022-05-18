@@ -2,6 +2,7 @@ require 'rails_helper'
 
 describe 'POST api/v1/targets', type: :request do
   let(:user) { create(:user) }
+  let(:vip_user) { create(:vip_user) }
   subject do
     post api_v1_targets_path, params: { target: target_params },
                               headers: auth_headers, as: :json
@@ -23,13 +24,23 @@ describe 'POST api/v1/targets', type: :request do
     it 'returns target params' do
       expect(response.body).to include('latitude', 'longitude')
     end
-    it 'returns validation error if exceeds target_length' do
+    it 'limits non-vip users to a maximum of 3 targets' do
       (1..4).each do |i|
         attrs = attributes_for(:target, title: "title#{i}")
         post '/api/v1/targets', params: { target: attrs },
                                 headers: auth_headers, as: :json
       end
       expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.body).to include('You can only have 3 targets')
+    end
+    it "don't limits vip users to a maximum of 3 targets" do
+      vip_auth_headers = vip_user.create_new_auth_token
+      (1..4).each do |i|
+        attrs = attributes_for(:target, title: "title#{i}")
+        post '/api/v1/targets', params: { target: attrs },
+                                headers: vip_auth_headers, as: :json
+      end
+      expect(response).to have_http_status(:created)
     end
   end
   context 'with invalid params and valid auth' do
