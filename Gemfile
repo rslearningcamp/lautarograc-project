@@ -11,12 +11,14 @@ gem 'devise', '~> 4.8'
 gem 'devise_token_auth', '~> 1.2'
 gem 'geokit-rails', '~> 2.3', '>= 2.3.2'
 gem 'jbuilder', '~> 2.7'
+gem 'kaminari'
 gem 'pg', '~> 1.1', '>= 1.1.4'
 gem 'puma', '~> 5.6'
 gem 'rack-cors', '~> 1.1.1'
 gem 'rails', '~> 6.1.5'
 gem 'sass-rails', '>= 6'
 gem 'shoulda-matchers', '~> 5.1'
+gem 'sidekiq'
 gem 'turbolinks', '~> 5'
 gem 'webpacker', '~> 5.0'
 group :development, :test do
@@ -44,6 +46,7 @@ end
 
 group :test do
   gem 'capybara', '>= 3.26'
+  gem 'rspec-sidekiq'
   gem 'selenium-webdriver'
   gem 'simplecov', '~> 0.21.2', require: false
   gem 'webdrivers'

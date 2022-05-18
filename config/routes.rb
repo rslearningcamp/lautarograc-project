@@ -1,8 +1,9 @@
+require 'sidekiq/web'
 Rails.application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-
+  mount Sidekiq::Web => '/sidekiq'
   namespace :api do
     scope :v1 do
       mount_devise_token_auth_for 'AdminUser', at: 'admin_users', controllers: {
@@ -18,7 +19,7 @@ Rails.application.routes.draw do
       resources :topics, only: [:index]
       resources :targets, only: %i[create index destroy]
       resources :conversations, only: %i[index] do
-        resources :messages, only: %i[create]
+        resources :messages, only: %i[create index]
       end
     end
     end

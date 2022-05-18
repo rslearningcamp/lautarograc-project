@@ -5,10 +5,15 @@ module Api
       def create
         @message = set_match.conversation.messages.new(message_params.merge(user: current_api_user))
         if @message.save
-          render json: @message, status: :created
+          render :create, status: :created
         else
           render json: @message.errors, status: :unprocessable_entity
         end
+      end
+
+      def index
+        @messages = @conversation.messages.page(page).per(per_page)
+        render :index, status: :ok
       end
 
       private
@@ -20,7 +25,7 @@ module Api
                match_conversation.end_target.user == current_api_user
           @conversation = nil
         end
-        head :forbidden if @conversation.nil?
+        head :forbidden unless @conversation
       end
 
       def set_match
@@ -29,6 +34,14 @@ module Api
 
       def message_params
         params.require(:message).permit(:title, :content)
+      end
+
+      def page
+        params[:page] || ENV['PAGE']
+      end
+
+      def per_page
+        params[:per_page] || ENV['PER_PAGE']
       end
     end
   end

@@ -5,6 +5,7 @@ module Api
       def create
         @target = Target.new(target_params.merge(user_id: current_api_user.id))
         if @target.save
+          expirate
           render :create, status: :created
         else
           render json: { errors: @target.errors }, status: :unprocessable_entity
@@ -30,6 +31,10 @@ module Api
       def set_target
         @target = Target.find(params[:id])
         head :forbidden if current_api_user.id != @target.user_id
+      end
+
+      def expirate
+        TargetExpirationJob.perform_in(7.days, @target.id)
       end
     end
   end

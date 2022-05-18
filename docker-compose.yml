@@ -19,6 +19,24 @@ services:
     restart: always
     volumes:
     - "./:/src/rails_api_base"
+  redis:
+    image: 'redis:7-alpine'
+    command: redis-server
+    ports:
+      - '6379:6379'
+    volumes:
+      - 'redis:/data'
+  sidekiq:
+    depends_on:
+      - 'db'
+      - 'redis'
+    build: .
+    command: bundle exec sidekiq
+    volumes:
+      - '.:/project'
+      - '/project/tmp' # don't mount tmp directory
+    environment:
+      - REDIS_URL_SIDEKIQ=redis://redis:6379/12
   db:
     image: postgres:11
     restart: always
@@ -67,3 +85,4 @@ services:
       - donotstart
 volumes:
   db_data:
+  redis:

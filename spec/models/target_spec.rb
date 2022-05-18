@@ -3,6 +3,7 @@
 # Table name: targets
 #
 #  id         :bigint           not null, primary key
+#  active     :boolean          default(TRUE)
 #  latitude   :decimal(15, 10)  not null
 #  longitude  :decimal(15, 10)  not null
 #  radius     :float            not null
