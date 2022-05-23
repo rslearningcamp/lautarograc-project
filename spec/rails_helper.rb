@@ -1,3 +1,13 @@
+require 'simplecov'
+SimpleCov.start 'rails' do
+  add_filter('/admin')
+  add_filter('/channels')
+  add_filter('/helpers')
+  add_filter('/jobs/application_job.rb')
+  add_filter('/models/application_record.rb')
+  add_filter('/controllers/application_controller.rb')
+  add_filter('/mailers/application_mailer.rb')
+end
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
@@ -7,16 +17,6 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
-require 'simplecov'
-SimpleCov.start 'rails' do
-  add_filter('/admin')
-  add_filter('/channels')
-  add_filter('/helpers')
-  add_filter('jobs/application_job.rb')
-  add_filter('/models/application_record.rb')
-  add_filter('/controllers/application_controller.rb')
-  add_filter('/mailers/application_mailer.rb')
-end
 
 WebMock.disable_net_connect!(allow_localhost: true)
 
