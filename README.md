@@ -3,7 +3,7 @@
 Edit:
 late update, 22/05/2022
 
-I just realized that some of the changes that are visibly approved and merged as PRs weren't actually merged with the main (it's sill puzzling around my head, idk why it happened, I'll investigate it later), so I manually merged them as commits to main.
+I just realized that some of the PRs that are visibly approved and merged weren't actually merged with the main (it's sill puzzling around my head, idk why it happened, I'll investigate it later), so I manually merged them as commits to main.
 
 
 I had some trouble deploying to heroku. It's still giving me some errors. I couldn't get much work done about it due to some exams, but I'll try to redo the deploy during the week, even if it won't count towards the project qualifications.
