@@ -1,6 +1,6 @@
 ActiveAdmin.register User do
   menu priority: 1, label: 'Users'
-  permit_params :email, :password, :admin, :active
+  permit_params :email, :password, :admin, :name, :nickname, :image, :vip
   scope :all, default: true
 
   form html: { multipart: true } do |f|
