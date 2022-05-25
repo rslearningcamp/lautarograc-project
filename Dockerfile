@@ -34,5 +34,3 @@ RUN yarn install --ignore-engines
 ADD . $APP_HOME
 
 EXPOSE 3000
-
-ENTRYPOINT [ "bundle", "exec" ]
